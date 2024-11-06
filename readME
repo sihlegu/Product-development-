@@ -1,0 +1,186 @@
+# Product Development Roadman Visualization;
+
+---
+
+### **Project: Product Development Roadmap Visualization**
+
+#### **project- **Task Name**: Name of the task or milestone.
+- **Start Date**: Date when the task or milestone begins.
+- **End Date**: Date when the task or milestone is expected to complete.
+- **Phase**: The phase in which the task belongs (e.g., Planning, Development, Testing).
+- **Status**: The current status of the task (e.g., In Progress, Completed, Pending).
+
+---
+
+### **Project Structure**
+
+```plaintext
+product-roadmap/
+├── data/
+│   └── roadmap_data.csv
+├── scripts/
+│   ├── data_cleaning.py
+│   ├── roadmap_visualization.py
+├── README.md
+└── requirements.txt
+```
+
+---
+
+### **README.md**:
+
+```markdown
+# Product Development Roadmap Visualization
+
+## Project Overview
+This project visualizes the product development roadmap using a Gantt chart to display project milestones, phases, and timelines. It helps teams track progress and ensures that all phases are aligned with the product development goals.
+
+## Dataset
+The dataset contains the following columns:
+- `Task Name`: The name of the task or milestone.
+- `Start Date`: The start date for the task.
+- `End Date`: The end date for the task.
+- `Phase`: The phase to which the task belongs (e.g., Planning, Development, Testing).
+- `Status`: The current status of the task (e.g., In Progress, Completed, Pending).
+
+## Features
+- Data cleaning and preprocessing.
+- Gantt chart visualization to display the roadmap.
+- Categorize tasks based on phases and status.
+- Track task progress along the timeline.
+
+## Project Structure
+- `data/`: Contains the roadmap dataset (`roadmap_data.csv`).
+- `scripts/`: Contains Python scripts for data cleaning and visualization.
+- `requirements.txt`: Lists the dependencies needed to run the project.
+
+## Steps to Run the Project
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/product-roadmap.git
+    cd product-roadmap
+    ```
+
+2. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. Run the roadmap visualization script:
+    ```bash
+    python scripts/roadmap_visualization.py
+    ```
+
+## Requirements
+- Python 3.x
+- pandas
+- matplotlib
+- plotly
+```
+
+---
+
+### **requirements.txt**:
+
+```plaintext
+pandas
+matplotlib
+plotly
+```
+
+---
+
+### **data_cleaning.py** (in `scripts` folder):
+
+```python
+import pandas as pd
+
+def clean_data(data_path):
+    # Load the data
+    df = pd.read_csv(data_path)
+    
+    # Convert date columns to datetime format
+    df['Start Date'] = pd.to_datetime(df['Start Date'])
+    df['End Date'] = pd.to_datetime(df['End Date'])
+    
+    # Handle missing values (if any)
+    df.fillna({'Status': 'Pending'}, inplace=True)
+    
+    return df
+
+# Example usage:
+# df = clean_data('data/roadmap_data.csv')
+# print(df.head())
+```
+
+---
+
+### **roadmap_visualization.py** (in `scripts` folder):
+
+```python
+import pandas as pd
+import plotly.express as px
+from scripts.data_cleaning import clean_data
+
+# Load and clean the data
+df = clean_data('data/roadmap_data.csv')
+
+# Create Gantt chart using Plotly
+fig = px.timeline(df, 
+                  x_start="Start Date", 
+                  x_end="End Date", 
+                  y="Task Name", 
+                  color="Phase", 
+                  title="Product Development Roadmap",
+                  hover_data=["Status"])
+
+# Update layout for better visualization
+fig.update_layout(
+    xaxis_title="Timeline",
+    yaxis_title="Tasks",
+    showlegend=True
+)
+
+# Show the Gantt chart
+fig.show()
+```
+
+---
+
+### **Sample Dataset (`roadmap_data.csv`)** (in `data` folder):
+
+```csv
+Task Name,Start Date,End Date,Phase,Status
+Define Product Vision,2024-01-01,2024-01-10,Planning,Completed
+Market Research,2024-01-05,2024-01-15,Planning,In Progress
+Prototype Design,2024-01-20,2024-02-10,Design,Pending
+MVP Development,2024-02-15,2024-04-01,Development,Pending
+User Testing,2024-04-05,2024-04-20,Testing,Pending
+Product Launch,2024-05-01,2024-05-10,Launch,Pending
+Post-Launch Support,2024-05-15,2024-06-01,Support,Pending
+```
+
+---
+
+### **How to Run the Project**
+
+1. **Clone the repository** to your local machine:
+    ```bash
+    git clone https://github.com/yourusername/product-roadmap.git
+    cd product-roadmap
+    ```
+
+2. **Install the required dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. **Run the roadmap visualization script** to display the product development roadmap:
+    ```bash
+    python scripts/roadmap_visualization.py
+    ```
+
+---
+
+
